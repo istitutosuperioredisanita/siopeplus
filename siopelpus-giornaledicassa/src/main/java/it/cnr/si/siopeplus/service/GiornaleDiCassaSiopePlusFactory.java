@@ -32,7 +32,7 @@ public class GiornaleDiCassaSiopePlusFactory {
         });
     }
 
-    public GiornaleDiCassaSiopePlusService getOrdinativiSiopePlusService(String key) throws SIOPEPlusServiceNotInstantiated {
+    public GiornaleDiCassaSiopePlusService getGiornaleDiCassaSiopePlusService(String key) throws SIOPEPlusServiceNotInstantiated {
         return giornaleDiCassaSiopePlusServices.entrySet().stream()
                 .filter(e -> key.equals(e.getKey()))
                 .map(Map.Entry::getValue)
