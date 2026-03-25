@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<!-- SCHEMA FLUSSO ORDINATIVI OPI 1.5.1  -->
+<!-- SCHEMA FLUSSO ORDINATIVI OPI 1.6.1  -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
   <!--    -->
-  <xs:include schemaLocation="OPI_GLOBAL_V_1_5_1_1.xsd"/>
+  <xs:include schemaLocation="OPI_GLOBAL_V_1_6_1.xsd"/>
   <!--    -->
   <!--  -->
   <xs:simpleType name="stABI_CAB">
@@ -547,6 +547,7 @@ VINCOLATA:ENTRATA VINCOLATA</xs:documentation>
               <xs:complexType>
                 <xs:sequence>
                   <xs:element name="codice_cge" type="stCodiceGestionaleSIOPE"/>
+                  <xs:element name="codice_cup" type="stCodiceCUP" minOccurs="0"/>
                   <xs:element name="importo">
                     <xs:simpleType>
                       <xs:restriction base="xs:decimal">
@@ -863,15 +864,7 @@ ASSICURATA</xs:documentation>
               <xs:complexType>
                 <xs:sequence>
                   <xs:element name="codice_cgu" type="stCodiceGestionaleSIOPE"/>
-                  <xs:element name="codice_cup" minOccurs="0">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:string">
-                        <xs:maxLength value="15"/>
-                        <xs:minLength value="15"/>
-                        <xs:pattern value="[A-Z|a-z||0-9|]{1,15}"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:element>
+                  <xs:element name="codice_cup" type="stCodiceCUP" minOccurs="0"/>
                   <xs:element name="codice_cpv" minOccurs="0">
                     <xs:simpleType>
                       <xs:restriction base="xs:string">

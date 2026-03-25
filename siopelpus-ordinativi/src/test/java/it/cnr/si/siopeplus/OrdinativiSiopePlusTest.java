@@ -41,16 +41,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -97,41 +100,41 @@ public class OrdinativiSiopePlusTest {
 
     @Test
     public void downloadACK() throws SIOPEPlusServiceNotInstantiated {
-        OrdinativiSiopePlusService ordinativiSiopePlusService = ordinativiSiopePlusFactory.getOrdinativiSiopePlusService("BI");
+        OrdinativiSiopePlusService ordinativiSiopePlusService = ordinativiSiopePlusFactory.getOrdinativiSiopePlusService("BT");
         final List<Risultato> lista = ordinativiSiopePlusService.getAllMessaggi(
                 Esito.ACK,
                 LocalDateTime.now().minusMonths(2),
                 null,
                 true,
                 null);
-        Assert.notNull(lista);
+        Assert.notNull(lista,"La lista è vuota");
         Optional.ofNullable(lista)
                 .orElse(Collections.emptyList())
                 .stream()
                 .forEach(risultato -> {
                     final MessaggioAckSiope messaggioAckSiope =
                             ordinativiSiopePlusService.getLocation(risultato.getLocation(), MessaggioAckSiope.class).getObject();
-                    Assert.notNull(messaggioAckSiope);
+                    Assert.notNull(messaggioAckSiope,"Il messaggio è vuoto");
                 });
     }
 
     @Test
     public void downloadEsito() throws SIOPEPlusServiceNotInstantiated {
-        OrdinativiSiopePlusService ordinativiSiopePlusService = ordinativiSiopePlusFactory.getOrdinativiSiopePlusService("BI");
+        OrdinativiSiopePlusService ordinativiSiopePlusService = ordinativiSiopePlusFactory.getOrdinativiSiopePlusService("BT");
         final List<Risultato> lista = ordinativiSiopePlusService.getAllMessaggi(
                 Esito.ESITO,
                 LocalDateTime.now().minusMonths(2),
                 null,
                 true,
                 null);
-        Assert.notNull(lista);
+        Assert.notNull(lista,"La lista è vuota");
         Optional.ofNullable(lista)
                 .orElse(Collections.emptyList())
                 .stream()
                 .forEach(risultato -> {
                     final MessaggioRicezioneFlusso messaggioRicezioneFlusso =
                             ordinativiSiopePlusService.getLocation(risultato.getLocation(), MessaggioRicezioneFlusso.class).getObject();
-                    Assert.notNull(messaggioRicezioneFlusso);
+                    Assert.notNull(messaggioRicezioneFlusso,"Il messaggio è vuoto");
                 });
     }
 
@@ -144,14 +147,14 @@ public class OrdinativiSiopePlusTest {
                 null,
                 true,
                 null);
-        Assert.notNull(lista);
+        Assert.notNull(lista,"La lista è vuota");
         Optional.ofNullable(lista)
                 .orElse(Collections.emptyList())
                 .stream()
                 .forEach(risultato -> {
                     final MessaggiEsitoApplicativo messaggiEsitoApplicativo =
                             ordinativiSiopePlusService.getLocation(risultato.getLocation(), MessaggiEsitoApplicativo.class).getObject();
-                    Assert.notNull(messaggiEsitoApplicativo);
+                    Assert.notNull(messaggiEsitoApplicativo,"Il messaggio è vuoto");
                 });
     }
 
@@ -159,12 +162,9 @@ public class OrdinativiSiopePlusTest {
     public void postFLUSSO() throws JAXBException, IOException, DatatypeConfigurationException, ArubaSignServiceException, SIOPEPlusServiceUnavailable, SIOPEPlusServiceNotInstantiated {
         final OrdinativiSiopePlusService bt = ordinativiSiopePlusFactory.getOrdinativiSiopePlusService("BT");
         final InputStream inputStream = generaFlusso(bt.getA2a(), bt.getUniuo());
-        //final InputStream inputStream = new FileInputStream("D:\\tmp\\siope\\send\\test_signed.xml");
-       final Risultato risultato = bt.postFlusso(inputStream);
-        Assert.notNull(risultato);
+        final Risultato risultato = bt.postFlusso(inputStream);
+        Assert.notNull(risultato,"Il messaggio è vuoto");
     }
-
-
 
     private InputStream generaFlusso(String a2a, String uniuo) throws JAXBException, IOException, DatatypeConfigurationException, ArubaSignServiceException {
 
@@ -174,7 +174,7 @@ public class OrdinativiSiopePlusTest {
         FlussoOrdinativi flussoOrdinativi = objectFactory.createFlussoOrdinativi();
 
         final CtTestataFlusso testataFlusso = objectFactory.createCtTestataFlusso();
-        testataFlusso.setCodiceABIBT("03069");
+        testataFlusso.setCodiceABIBT("01005");
         testataFlusso.setRiferimentoEnte(a2a);
         testataFlusso.setIdentificativoFlusso(LocalDateTime.now().getYear() + "-TEST-" + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + "-I");
         testataFlusso.setDataOraCreazioneFlusso(DatatypeFactory.newInstance().newXMLGregorianCalendar(formatterTime.format(date)));
@@ -182,9 +182,9 @@ public class OrdinativiSiopePlusTest {
         testataFlusso.setCodiceEnteBT(environment.getProperty("siopeplus.codice.ente.bt"));
         testataFlusso.setCodiceTramiteEnte(environment.getProperty("siopeplus.codice.tramite.ente"));
         testataFlusso.setCodiceTramiteBT(environment.getProperty("siopeplus.codice.tramite.ente.bt"));
-        testataFlusso.setDescrizioneEnte("ISTITUTO SUPERIORE DI SANITA' - ISS");
-        testataFlusso.setCodiceIstatEnte("007535174000000");
-        testataFlusso.setCodiceFiscaleEnte("80211730587");
+        testataFlusso.setDescrizioneEnte("Consiglio Nazionale delle Ricerche");
+        testataFlusso.setCodiceIstatEnte("000713516000000");
+        testataFlusso.setCodiceFiscaleEnte("80054330586");
         flussoOrdinativi.getContent().add(objectFactory.createTestataFlusso(testataFlusso));
 
         flussoOrdinativi.getContent().add(objectFactory.createEsercizio(2018));
@@ -275,7 +275,7 @@ public class OrdinativiSiopePlusTest {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         JAXBContext jc = JAXBContext.newInstance("it.siopeplus");
         Marshaller jaxbMarshaller = jc.createMarshaller();
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
         jaxbMarshaller.marshal(flussoOrdinativi, byteArrayOutputStream);
 
         String out = new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8);
@@ -296,11 +296,7 @@ public class OrdinativiSiopePlusTest {
                         new ByteArrayInputStream(contentSigned),
                         applicationContext.getResource("classpath:xsd/OPI_FLUSSO_ORDINATIVI_V_1_6_0.xsd").getURL()
                 )
-        );
-        //FileOutputStream fos = new FileOutputStream("D:\\tmp\\siope\\send\\testSigned2.xml");
-        //fos.write(contentSigned);
-        //fos.flush();
-        //fos.close();
+                ,"XSD non valido!");
         return new ByteArrayInputStream(contentSigned);
     }
 }

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<!-- SCHEMA FLUSSO ORDINATIVI OPI 1.5.1  -->
+<!-- SCHEMA FLUSSO ORDINATIVI OPI 1.7.1  -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
   <!--    -->
-  <xs:include schemaLocation="OPI_GLOBAL_V_1_5_1_1.xsd"/>
+  <xs:include schemaLocation="OPI_GLOBAL_V_1_6_1.xsd"/>
   <!--    -->
   <!--  -->
   <xs:simpleType name="stABI_CAB">
@@ -495,18 +495,18 @@ ACCREDITO BANCA D’ITALIA
 CASSA
 COMPENSAZIONE
 PRELIEVO DA CC POSTALE
-REGOLARIZZAZIONE ACCREDITO BANCA D’ITALIA
 REGOLARIZZAZIONE
-SOSTITUZIONE: da utilizzare esclusivamente per le reversali relative a operazioni di SOSTITUZIONE</xs:documentation>
+SOSTITUZIONE
+Il valore SOSTITUZIONE deve essere esclusivamente utilizzato per le reversali relative a operazioni di SOSTITUZIONE.
+I valori COMPENSAZIONE e SOSTITUZIONE non sono utilizzati dalle istituzioni scolastiche.</xs:documentation>
               </xs:annotation>
               <xs:simpleType>
                 <xs:restriction base="xs:string">
-                  <xs:enumeration value="CASSA"/>
                   <xs:enumeration value="ACCREDITO BANCA D'ITALIA"/>
-                  <xs:enumeration value="REGOLARIZZAZIONE"/>
-                  <xs:enumeration value="REGOLARIZZAZIONE ACCREDITO BANCA D'ITALIA"/>
-                  <xs:enumeration value="PRELIEVO DA CC POSTALE"/>
+                  <xs:enumeration value="CASSA"/>
                   <xs:enumeration value="COMPENSAZIONE"/>
+                  <xs:enumeration value="PRELIEVO DA CC POSTALE"/>
+                  <xs:enumeration value="REGOLARIZZAZIONE"/>
                   <xs:enumeration value="SOSTITUZIONE"/>
                 </xs:restriction>
               </xs:simpleType>
@@ -547,6 +547,7 @@ VINCOLATA:ENTRATA VINCOLATA</xs:documentation>
               <xs:complexType>
                 <xs:sequence>
                   <xs:element name="codice_cge" type="stCodiceGestionaleSIOPE"/>
+                  <xs:element name="codice_cup" type="stCodiceCUP" minOccurs="0"/>
                   <xs:element name="importo">
                     <xs:simpleType>
                       <xs:restriction base="xs:decimal">
@@ -736,35 +737,33 @@ ASSEGNO CIRCOLARE
 AVVISO PAGOPA
 BONIFICO ESTERO EURO
 CASSA
-COMPENSAZIONE DISPOSIZIONE DOCUMENTO ESTERNO
-REGOLARIZZAZIONE: da utilizzare per la domiciliazione
+COMPENSAZIONE
+DISPOSIZIONE DOCUMENTO ESTERNO
+REGOLARIZZAZIONE
 SEPA CREDIT TRANSFER
-SOSTITUZIONE: da utilizzare esclusivamente per i mandati relativi a operazioni di SOSTITUZIONE
-I valori ASSEGNO BANCARIO E POSTALE, VAGLIA POSTALE, VAGLIA TESORO, SOSTITUZIONE  e COMPENSAZIONE non sono utilizzati dalle istituzioni scolastiche.
-ACCREDITO TESORERIA PROVINCIALE STATO PER TAB A - possono essere utilizzati solo dagli gli enti soggetti al regime di Tesoreria Unica
-ACCREDITO TESORERIA PROVINCIALE STATO PER TAB B - possono essere utilizzati solo dagli gli enti soggetti al regime di Tesoreria Unica
-REGOLARIZZAZIONE ACCREDITO TESORERIA PROVINCIALE STATO PER TAB A
-REGOLARIZZAZIONE ACCREDITO TESORERIA PROVINCIALE STATO PER TAB B</xs:documentation>
+SOSTITUZIONE
+Il valore SOSTITUZIONE deve essere utilizzato esclusivamente per i mandati relativi a operazioni di SOSTITUZIONE.
+I valori ASSEGNO BANCARIO E POSTALE, SOSTITUZIONE e COMPENSAZIONE non sono utilizzati dalle istituzioni scolastiche.
+I seguenti valori di tipo_pagamento possono essere utilizzati solo dagli gli enti soggetti al regime di Tesoreria Unica:
+ACCREDITO TESORERIA PROVINCIALE
+F24EP</xs:documentation>
               </xs:annotation>
               <xs:simpleType>
                 <xs:restriction base="xs:string">
-                  <xs:enumeration value="CASSA"/>
-                  <xs:enumeration value="ASSEGNO BANCARIO E POSTALE"/>
-                  <xs:enumeration value="SEPA CREDIT TRANSFER"/>
-                  <xs:enumeration value="ASSEGNO CIRCOLARE"/>
                   <xs:enumeration value="ACCREDITO CONTO CORRENTE POSTALE"/>
-                  <xs:enumeration value="ACCREDITO TESORERIA PROVINCIALE STATO PER TAB A"/>
-                  <xs:enumeration value="ACCREDITO TESORERIA PROVINCIALE STATO PER TAB B"/>
+                  <xs:enumeration value="ACCREDITO TESORERIA PROVINCIALE STATO"/>
+                  <xs:enumeration value="ADDEBITO PREAUTORIZZATO"/>
+                  <xs:enumeration value="ASSEGNO BANCARIO E POSTALE"/>
+                  <xs:enumeration value="ASSEGNO CIRCOLARE"/>
+                  <xs:enumeration value="AVVISO PAGOPA"/>
+                  <xs:enumeration value="BONIFICO ESTERO EURO"/>
+                  <xs:enumeration value="CASSA"/>
+                  <xs:enumeration value="COMPENSAZIONE"/>
+                  <xs:enumeration value="DISPOSIZIONE DOCUMENTO ESTERNO"/>
                   <xs:enumeration value="F24EP"/>
                   <xs:enumeration value="REGOLARIZZAZIONE"/>
-                  <xs:enumeration value="REGOLARIZZAZIONE ACCREDITO TESORERIA PROVINCIALE STATO PER TAB A"/>
-                  <xs:enumeration value="REGOLARIZZAZIONE ACCREDITO TESORERIA PROVINCIALE STATO PER TAB B"/>
-                  <xs:enumeration value="ADDEBITO PREAUTORIZZATO"/>
-                  <xs:enumeration value="DISPOSIZIONE DOCUMENTO ESTERNO"/>
-                  <xs:enumeration value="COMPENSAZIONE"/>
-                  <xs:enumeration value="BONIFICO ESTERO EURO"/>
+                  <xs:enumeration value="SEPA CREDIT TRANSFER"/>
                   <xs:enumeration value="SOSTITUZIONE"/>
-                  <xs:enumeration value="AVVISO PAGOPA"/>
                 </xs:restriction>
               </xs:simpleType>
             </xs:element>
@@ -815,16 +814,6 @@ VINCOLATA: UTILIZZO SOMME VINCOLATE</xs:documentation>
                 </xs:restriction>
               </xs:simpleType>
             </xs:element>
-            <xs:element name="numero_conto_banca_italia_ente_ricevente" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation>Utilizzato per operazioni di "girofondo"</xs:documentation>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:pattern value="\d{1,7}"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
             <xs:element name="tipo_contabilita_ente_ricevente" minOccurs="0">
               <xs:annotation>
                 <xs:documentation>Utilizzato per operazioni di "girofondo";  può assumere i valori:
@@ -863,15 +852,7 @@ ASSICURATA</xs:documentation>
               <xs:complexType>
                 <xs:sequence>
                   <xs:element name="codice_cgu" type="stCodiceGestionaleSIOPE"/>
-                  <xs:element name="codice_cup" minOccurs="0">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:string">
-                        <xs:maxLength value="15"/>
-                        <xs:minLength value="15"/>
-                        <xs:pattern value="[A-Z|a-z||0-9|]{1,15}"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:element>
+                  <xs:element name="codice_cup" type="stCodiceCUP" minOccurs="0"/>
                   <xs:element name="codice_cpv" minOccurs="0">
                     <xs:simpleType>
                       <xs:restriction base="xs:string">
@@ -1899,3 +1880,7 @@ M2 = due cifre che indicano il mene "al" di riferimento del versamento (es, 01 g
     </xs:unique>
   </xs:element>
 </xs:schema>
+
+
+
+

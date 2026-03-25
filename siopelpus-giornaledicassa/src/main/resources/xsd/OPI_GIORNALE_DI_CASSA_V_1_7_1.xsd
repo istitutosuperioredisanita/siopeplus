@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<!-- SCHEMA GIORNALE DI CASSA Versione 1.5.1 -->
+<!-- SCHEMA GIORNALE DI CASSA Versione 1.7.1 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:opi="http://ws.pagamenti.telematici.gov/" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
   <!--    -->
-  <xs:include schemaLocation="OPI_GLOBAL_V_1_5_1_1.xsd"/>
+  <xs:include schemaLocation="OPI_GLOBAL_V_1_6_1.xsd"/>
   <!--    -->
   <xs:simpleType name="OnlyNumMax7">
     <xs:annotation>
@@ -275,49 +275,44 @@ RIPRISTINATO</xs:documentation>
               <xs:element name="tipo_esecuzione">
                 <xs:annotation>
                   <xs:documentation>Può assumere i valori:
-CASSA
-ACCREDITO BANCA D'ITALIA
-REGOLARIZZAZIONE
-REGOLARIZZAZIONE ACCREDITO BANCA D'ITALIA
-PRELIEVO DA CC POSTALE
-SEPA CREDIT TRANSFER
-ASSEGNO BANCARIO E POSTALE
-ASSEGNO CIRCOLARE
+ACCREDITO BANCA D’ITALIA
 ACCREDITO CONTO CORRENTE POSTALE
-ACCREDITO TESORERIA PROVINCIALE STATO PER TAB A
-ACCREDITO TESORERIA PROVINCIALE STATO PER TAB B
-F24EP
-REGOLARIZZAZIONE
-REGOLARIZZAZIONE ACCREDITO TESORERIA PROVINCIALE STATO PER TAB A
-REGOLARIZZAZIONE ACCREDITO TESORERIA PROVINCIALE STATO PER TAB B
-ADDEBITO PREAUTORIZZATO DISPOSIZIONE DOCUMENTO ESTERNO
-COMPENSAZIONE
-BONIFICO ESTERO EURO
+ACCREDITO TESORERIA PROVINCIALE STATO
+ADDEBITO PREAUTORIZZATO
+ASSEGNO BANCARIO E POSTALE
+ASSEGNO DI TRAENZA PER COMMUTAZIONE EX ART 219 TUEL
+ASSEGNO CIRCOLARE
 AVVISO PAGOPA
-SOSTITUZIONE</xs:documentation>
+BONIFICO ESTERO EURO
+CASSA
+COMPENSAZIONE
+DISPOSIZIONE DOCUMENTO ESTERNO
+F24EP
+PRELIEVO DA CC POSTALE
+REGOLARIZZAZIONE
+SEPA CREDIT TRANSFER
+SOSTITUZIONE
+Il valore COMPENSAZIONE non si applica alle istituzioni scolastiche.</xs:documentation>
                 </xs:annotation>
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:enumeration value="CASSA"/>
                     <xs:enumeration value="ACCREDITO BANCA D'ITALIA"/>
-                    <xs:enumeration value="REGOLARIZZAZIONE"/>
-                    <xs:enumeration value="REGOLARIZZAZIONE ACCREDITO BANCA D'ITALIA"/>
-                    <xs:enumeration value="PRELIEVO DA CC POSTALE"/>
-                    <xs:enumeration value="ASSEGNO BANCARIO E POSTALE"/>
-                    <xs:enumeration value="SEPA CREDIT TRANSFER"/>
-                    <xs:enumeration value="ASSEGNO CIRCOLARE"/>
                     <xs:enumeration value="ACCREDITO CONTO CORRENTE POSTALE"/>
-                    <xs:enumeration value="ACCREDITO TESORERIA PROVINCIALE STATO PER TAB A"/>
-                    <xs:enumeration value="ACCREDITO TESORERIA PROVINCIALE STATO PER TAB B"/>
-                    <xs:enumeration value="F24EP"/>
-                    <xs:enumeration value="REGOLARIZZAZIONE"/>
-                    <xs:enumeration value="REGOLARIZZAZIONE ACCREDITO TESORERIA PROVINCIALE STATO PER TAB A"/>
-                    <xs:enumeration value="REGOLARIZZAZIONE ACCREDITO TESORERIA PROVINCIALE STATO PER TAB B"/>
+                    <xs:enumeration value="ACCREDITO TESORERIA PROVINCIALE STATO"/>
                     <xs:enumeration value="ADDEBITO PREAUTORIZZATO"/>
-                    <xs:enumeration value="DISPOSIZIONE DOCUMENTO ESTERNO"/>
-                    <xs:enumeration value="COMPENSAZIONE"/>
-                    <xs:enumeration value="BONIFICO ESTERO EURO"/>
+                    <xs:enumeration value="ASSEGNO BANCARIO E POSTALE"/>
+                    <xs:enumeration value="ASSEGNO CIRCOLARE"/>
+                    <xs:enumeration value="ASSEGNO DI TRAENZA PER COMMUTAZIONE EX ART 219 TUEL"/>
                     <xs:enumeration value="AVVISO PAGOPA"/>
+                    <xs:enumeration value="BONIFICO ESTERO EURO"/>
+                    <xs:enumeration value="CASSA"/>
+                    <xs:enumeration value="COMPENSAZIONE"/>
+                    <xs:enumeration value="DISPOSIZIONE DOCUMENTO ESTERNO"/>
+                    <xs:enumeration value="F24EP"/>
+                    <xs:enumeration value="PRELIEVO DA CC POSTALE"/>
+                    <xs:enumeration value="REGOLARIZZAZIONE"/>
+                    <xs:enumeration value="REGOLARIZZAZIONE"/>
+                    <xs:enumeration value="SEPA CREDIT TRANSFER"/>
                     <xs:enumeration value="SOSTITUZIONE"/>
                   </xs:restriction>
                 </xs:simpleType>
@@ -941,6 +936,11 @@ ASSOGGETTAMENTO COMMISSIONI A CARICO CLIENTE</xs:documentation>
     </xs:complexType>
   </xs:element>
 </xs:schema>
+
+
+
+
+
 
 
 
